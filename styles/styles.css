@@ -1,1 +1,13 @@
 @import url("base.css");
+
+.target-div {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background-color: blue;
+}
+@keyframes moveLeft {
+  to {
+    left: -1000px;
+  }
+}
