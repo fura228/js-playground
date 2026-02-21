@@ -382,8 +382,132 @@ vct.addEventListener('click', () => {
 
     eighteenArea.appendChild(eighteenBox)
   }
+  
 
   setInterval(spawnBlock, 1000)
+
+  const area20 = document.querySelector('[data-js="t20-area"]');
+const score20 = document.querySelector('[data-js="t20-score"]');
+area20.style.position = 'relative';
+area20.style.overflow = 'hidden';
+let score2020 = 0;
+function spawnBlock2() {
+  const block = document.createElement('div');
+  block.style.width = 100 + 'px';
+  block.style.height = 100 + 'px';
+  block.style.background = 'red';
+  block.style.position = 'absolute';
+  block.style.cursor = 'pointer';
+  const maxX20 = area20.clientWidth - 100;
+  const maxY20 = area20.clientHeight - 100;
+  const x20 = Math.floor(Math.random() * maxX20);
+  const y20 = Math.floor(Math.random() * maxY20);
+  block.style.left = x20 + 'px';
+  block.style.top = y20 + 'px';
+  block.addEventListener('click', function () {
+    score2020 += 1;
+    score20.textContent = score2020;
+    block.remove();
+    spawnBlock();
+  });
+  area20.append(block);
+}
+spawnBlock2();
+
+const area21 = document.querySelector('[data-js="t21-area"]');
+const score2121 = document.querySelector('[data-js="t21-score"]');
+const lives2121 = document.querySelector('[data-js="t21-lives"]');
+const gameOver21 = document.querySelector('[data-js="t21-game-over"]');
+const restartBtn21 = document.querySelector('[data-js="t21-restart"]');
+area21.style.position = 'relative';
+area21.style.overflow = 'hidden';
+gameOver21.style.position = 'absolute';
+gameOver21.style.top = '0';
+gameOver21.style.right = '0';
+gameOver21.style.bottom = '0';
+gameOver21.style.left = '0';
+gameOver21.style.zIndex = '999';
+const speed21 = 2;
+let score21 = 0;
+let lives21 = 3;
+let blocks21 = [];
+let spawnTimer21 = null;
+let rafId21 = 0;
+let running21 = false;
+function ui21() {
+  score2121.textContent = score21;
+  lives2121.textContent = lives21;
+}
+function clearBlocks21() {
+  for (let i21 = 0; i21 < blocks21.length; i21++) blocks21[i21].remove();
+  blocks21 = [];
+}
+function stop21() {
+  running21 = false;
+  clearInterval(spawnTimer21);
+  spawnTimer21 = null;
+  cancelAnimationFrame(rafId21);
+  rafId21 = 0;
+  clearBlocks21();
+  gameOver21.hidden = false;
+}
+function spawn21() {
+  if (!running21) return;
+  const block21 = document.createElement('div');
+  block21.style.cssText = `width:${100}px;height:${100}px;background:#111;position:absolute;cursor:pointer;`;
+  block21.x21 = area21.clientWidth;
+  block21.style.left = block21.x21 + 'px';
+  block21.style.top = ((area21.clientHeight - 100) / 2) + 'px';
+  block21.onclick = function () {
+    if (!running21) return;
+    score21++;
+    ui21();
+    block21.remove();
+    for (let i21 = 0; i21 < blocks21.length; i21++) {
+    if (blocks21[i21] === block21) {
+      blocks21.splice(i21, 1);
+      break;
+    }
+  }
+};
+  area21.append(block21);
+  blocks21.push(block21);
+}
+function loop21() {
+  if (!running21) return;
+  for (let i21 = blocks21.length - 1; i21 >= 0; i21--) {
+    const b21 = blocks21[i21];
+    b21.x21 -= speed21;
+    b21.style.left = b21.x21 + 'px';
+    if (b21.x21 < -100) {
+      b21.remove();
+      blocks21.splice(i21, 1);
+      lives21--;
+      ui21();
+      if (lives21 <= 0) {
+        stop21();
+        return;
+      }
+    }
+  }
+  rafId21 = requestAnimationFrame(loop21);
+}
+function start21() {
+  clearInterval(spawnTimer21);
+  cancelAnimationFrame(rafId21);
+  rafId21 = 0;
+  clearBlocks21();
+  score21 = 0;
+  lives21 = 3;
+  ui21();
+  gameOver21.hidden = true;
+  running21 = true;
+  spawn21();
+  spawnTimer21 = setInterval(spawn21, 1000);
+  rafId21 = requestAnimationFrame(loop21);
+}
+restartBtn21.addEventListener('click', start21);
+start21();
 
   });
 

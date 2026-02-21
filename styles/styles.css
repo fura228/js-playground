@@ -11,3 +11,11 @@
     left: -1000px;
   }
 }
+@keyframes draw {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-150px);
+    }
+  }
